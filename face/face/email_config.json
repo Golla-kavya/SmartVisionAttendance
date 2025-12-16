@@ -1,7 +1,8 @@
 {
     "smtp_server": "smtp.gmail.com",
     "smtp_port": 587,
-    "sender_email": "prathikshaprabh370@gmail.com",
-    "sender_password": "Prathiksha123",
+    "sender_email": "kavyagnavs25@gmail.com",
+    "sender_password": "Kavya123",
     "enabled": true
+
 }
