@@ -1,0 +1,394 @@
+{
+    "john_doe": {
+        "Mathematics": {
+            "present": 28,
+            "total": 30
+        },
+        "Physics": {
+            "present": 25,
+            "total": 30
+        },
+        "Chemistry": {
+            "present": 27,
+            "total": 30
+        },
+        "English": {
+            "present": 29,
+            "total": 30
+        },
+        "Computer Science": {
+            "present": 26,
+            "total": 30
+        }
+    },
+    "jane_smith": {
+        "Mathematics": {
+            "present": 27,
+            "total": 30
+        },
+        "Physics": {
+            "present": 28,
+            "total": 30
+        },
+        "Chemistry": {
+            "present": 26,
+            "total": 30
+        },
+        "English": {
+            "present": 29,
+            "total": 30
+        },
+        "Computer Science": {
+            "present": 25,
+            "total": 30
+        }
+    },
+    "bob_johnson": {
+        "Mathematics": {
+            "present": 29,
+            "total": 30
+        },
+        "Physics": {
+            "present": 26,
+            "total": 30
+        },
+        "Chemistry": {
+            "present": 28,
+            "total": 30
+        },
+        "English": {
+            "present": 27,
+            "total": 30
+        },
+        "Computer Science": {
+            "present": 29,
+            "total": 30
+        }
+    },
+    "Shwetha": {
+        "Computer Science": {
+            "present": 1,
+            "total": 1
+        },
+        "Chemistry": {
+            "present": 0,
+            "total": 0
+        }
+    },
+    "Prathiksha  Prabhu": {
+        "Computer Science": {
+            "present": 6,
+            "total": 6
+        },
+        "Chemistry": {
+            "present": 4,
+            "total": 4
+        }
+    },
+    "sameeksha_prabhu": {
+        "Mathematics": {
+            "present": 0,
+            "total": 0
+        },
+        "Physics": {
+            "present": 0,
+            "total": 0
+        },
+        "Chemistry": {
+            "present": 0,
+            "total": 0
+        },
+        "English": {
+            "present": 0,
+            "total": 0
+        },
+        "Computer Science": {
+            "present": 0,
+            "total": 0
+        },
+        "Biology": {
+            "present": 0,
+            "total": 0
+        },
+        "History": {
+            "present": 0,
+            "total": 0
+        },
+        "Geography": {
+            "present": 0,
+            "total": 0
+        }
+    },
+    "prathiksha__prabhu": {
+        "Mathematics": {
+            "present": 2,
+            "total": 2
+        },
+        "Physics": {
+            "present": 1,
+            "total": 1
+        },
+        "Chemistry": {
+            "present": 3,
+            "total": 3
+        },
+        "English": {
+            "present": 0,
+            "total": 0
+        },
+        "Computer Science": {
+            "present": 2,
+            "total": 2
+        },
+        "Biology": {
+            "present": 0,
+            "total": 0
+        },
+        "History": {
+            "present": 0,
+            "total": 0
+        },
+        "Geography": {
+            "present": 0,
+            "total": 0
+        }
+    },
+    "kavana_ca": {
+        "Mathematics": {
+            "present": 0,
+            "total": 0
+        },
+        "Physics": {
+            "present": 1,
+            "total": 1
+        },
+        "Chemistry": {
+            "present": 0,
+            "total": 0
+        },
+        "English": {
+            "present": 0,
+            "total": 0
+        },
+        "Computer Science": {
+            "present": 1,
+            "total": 1
+        },
+        "Biology": {
+            "present": 0,
+            "total": 0
+        },
+        "History": {
+            "present": 0,
+            "total": 0
+        },
+        "Geography": {
+            "present": 0,
+            "total": 0
+        }
+    },
+    "nisha_c": {
+        "Mathematics": {
+            "present": 2,
+            "total": 2
+        },
+        "Physics": {
+            "present": 0,
+            "total": 0
+        },
+        "Chemistry": {
+            "present": 0,
+            "total": 0
+        },
+        "English": {
+            "present": 0,
+            "total": 0
+        },
+        "Computer Science": {
+            "present": 0,
+            "total": 0
+        },
+        "Biology": {
+            "present": 0,
+            "total": 0
+        },
+        "History": {
+            "present": 0,
+            "total": 0
+        },
+        "Geography": {
+            "present": 0,
+            "total": 0
+        }
+    },
+    "priyanka_vr": {
+        "Mathematics": {
+            "present": 1,
+            "total": 1
+        },
+        "Physics": {
+            "present": 0,
+            "total": 0
+        },
+        "Chemistry": {
+            "present": 0,
+            "total": 0
+        },
+        "English": {
+            "present": 0,
+            "total": 0
+        },
+        "Computer Science": {
+            "present": 0,
+            "total": 0
+        },
+        "Biology": {
+            "present": 0,
+            "total": 0
+        },
+        "History": {
+            "present": 0,
+            "total": 0
+        },
+        "Geography": {
+            "present": 0,
+            "total": 0
+        }
+    },
+    "manasi": {
+        "Mathematics": {
+            "present": 0,
+            "total": 0
+        },
+        "Physics": {
+            "present": 0,
+            "total": 0
+        },
+        "Chemistry": {
+            "present": 0,
+            "total": 0
+        },
+        "English": {
+            "present": 0,
+            "total": 0
+        },
+        "Computer Science": {
+            "present": 0,
+            "total": 0
+        },
+        "Biology": {
+            "present": 0,
+            "total": 0
+        },
+        "History": {
+            "present": 0,
+            "total": 0
+        },
+        "Geography": {
+            "present": 0,
+            "total": 0
+        }
+    },
+    "punya_b": {
+        "Mathematics": {
+            "present": 1,
+            "total": 1
+        },
+        "Physics": {
+            "present": 0,
+            "total": 0
+        },
+        "Chemistry": {
+            "present": 0,
+            "total": 0
+        },
+        "English": {
+            "present": 0,
+            "total": 0
+        },
+        "Computer Science": {
+            "present": 1,
+            "total": 1
+        },
+        "Biology": {
+            "present": 0,
+            "total": 0
+        },
+        "History": {
+            "present": 0,
+            "total": 0
+        },
+        "Geography": {
+            "present": 0,
+            "total": 0
+        }
+    },
+    "madhushree_b_r": {
+        "Mathematics": {
+            "present": 0,
+            "total": 0
+        },
+        "Physics": {
+            "present": 0,
+            "total": 0
+        },
+        "Chemistry": {
+            "present": 0,
+            "total": 0
+        },
+        "English": {
+            "present": 0,
+            "total": 0
+        },
+        "Computer Science": {
+            "present": 0,
+            "total": 0
+        },
+        "Biology": {
+            "present": 1,
+            "total": 1
+        },
+        "History": {
+            "present": 0,
+            "total": 0
+        },
+        "Geography": {
+            "present": 0,
+            "total": 0
+        }
+    },
+    "shree": {
+        "Mathematics": {
+            "present": 1,
+            "total": 1
+        },
+        "Physics": {
+            "present": 1,
+            "total": 1
+        },
+        "Chemistry": {
+            "present": 0,
+            "total": 0
+        },
+        "English": {
+            "present": 0,
+            "total": 0
+        },
+        "Computer Science": {
+            "present": 0,
+            "total": 0
+        },
+        "Biology": {
+            "present": 0,
+            "total": 0
+        },
+        "History": {
+            "present": 0,
+            "total": 0
+        },
+        "Geography": {
+            "present": 0,
+            "total": 0
+        }
+    }
+}

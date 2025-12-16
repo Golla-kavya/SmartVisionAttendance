@@ -1,0 +1,25 @@
+{
+    "prof_kumar": {
+        "name": "Prof. Kumar",
+        "password": "teacher123"
+    },
+    "prof_sharma": {
+        "name": "Prof. Sharma",
+        "password": "teacher123"
+    },
+    "shwetha": {
+        "name": "Shwetha",
+        "password": "Shwetha123",
+        "subject": "Computer Science"
+    },
+    "sameeksha": {
+        "name": "Sameeksha",
+        "password": "Sameeksha123",
+        "subject": "Computer Science"
+    },
+    "prathiksha": {
+        "name": "Prathiksha",
+        "password": "Prathiksha123",
+        "subject": "Chemistry"
+    }
+}

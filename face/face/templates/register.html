@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register New Face</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        select {
+            cursor: pointer;
+            background: white;
+        }
+
+        .video-container {
+            position: relative;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        #video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        #canvas {
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(17, 153, 142, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: #f0f0f0;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            color: #666;
+            line-height: 2;
+            margin-left: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .user-type-indicator {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .teacher-register {
+            text-align: center;
+            display: none;
+            margin-bottom: 30px;
+        }
+
+        .password-hint {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>➕ Register New Face</h1>
+        <p class="subtitle">Add a new user to the attendance system</p>
+
+        <div class="status" id="status"></div>
+
+        <div class="instructions">
+            <h3>Registration Instructions:</h3>
+            <ul>
+                <li>Select whether you are a Student or Teacher</li>
+                <li>Enter your full name and credentials</li>
+                <li><strong>Students:</strong> Enter your USN and a strong password (min 6 characters)</li>
+                <li><strong>Teachers:</strong> Select the subject you will handle and set a password</li>
+                <li><strong>Security Question:</strong> Choose a question and answer for password recovery</li>
+                <li>Start the camera and position your face clearly</li>
+                <li>Ensure good lighting and face the camera directly</li>
+                <li>Only one face should be visible in the frame</li>
+                <li>Click the appropriate button to complete registration</li>
+            </ul>
+        </div>
+
+        <div class="form-group">
+            <label for="userType">Register as:</label>
+            <select id="userType" onchange="toggleUSNField()">
+                <option value="student">👨‍🎓 Student</option>
+                <option value="teacher">👨‍🏫 Teacher</option>
+            </select>
+        </div>
+
+        <div class="user-type-indicator" id="typeIndicator">
+            Registering as: Student
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group" id="usnGroup">
+                <label for="usn">USN:</label>
+                <input type="text" id="usn" placeholder="Enter your USN" required>
+            </div>
+
+            <div class="form-group" id="studentPasswordGroup">
+                <label for="studentPassword">Password:</label>
+                <input type="password" id="studentPassword" placeholder="Set your password (min 6 characters)">
+                <div class="password-hint">🔒 This password will be used for student login</div>
+            </div>
+
+            <div class="form-group" id="teacherPasswordGroup" style="display: none;">
+                <label for="teacherPassword">Password:</label>
+                <input type="password" id="teacherPassword" placeholder="Set your password (min 6 characters)">
+                <div class="password-hint">🔒 This password will be used for teacher login</div>
+            </div>
+
+            <div class="form-group" id="subjectGroup" style="display: none;">
+                <label for="subject">Subject to Handle:</label>
+                <select id="subject">
+                    <option value="">-- Select Subject --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="securityQuestion">Security Question:</label>
+                <select id="securityQuestion" required>
+                    <option value="">-- Select a question --</option>
+                </select>
+                <div class="password-hint">📋 Used for password recovery</div>
+            </div>
+
+            <div class="form-group">
+                <label for="securityAnswer">Security Answer:</label>
+                <input type="text" id="securityAnswer" placeholder="Enter your answer" required>
+                <div class="password-hint">⚠️ Remember this answer - it's case-insensitive</div>
+            </div>
+        </div>
+
+        <div class="video-container" id="videoContainer">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <div class="controls" id="cameraControls">
+            <button class="btn-primary" id="startBtn" onclick="startCamera()">Start Camera</button>
+            <button class="btn-secondary" id="stopBtn" onclick="stopCamera()" style="display: none;">Stop Camera</button>
+            <button class="btn-success" id="captureBtn" onclick="registerFace()" style="display: none;">Capture & Register</button>
+        </div>
+
+        <div class="teacher-register" id="teacherRegister">
+            <button class="btn-success" id="registerBtn" onclick="registerTeacher()">Register Teacher</button>
+        </div>
+
+        <div class="navigation">
+            <a href="/" class="nav-link">🏠 Home</a>
+            <a href="/attendance" class="nav-link">📋 View Attendance</a>
+        </div>
+    </div>
+
+    <script>
+        let stream = null;
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const statusDiv = document.getElementById('status');
+        const nameInput = document.getElementById('name');
+        const usnInput = document.getElementById('usn');
+        const studentPasswordInput = document.getElementById('studentPassword');
+        const teacherPasswordInput = document.getElementById('teacherPassword');
+        const subjectSelect = document.getElementById('subject');
+        const securityQuestionSelect = document.getElementById('securityQuestion');
+        const securityAnswerInput = document.getElementById('securityAnswer');
+        const userTypeSelect = document.getElementById('userType');
+        const typeIndicator = document.getElementById('typeIndicator');
+
+        // Load subjects and security questions on page load
+        async function loadSubjects() {
+            try {
+                const response = await fetch('/api/get_subjects');
+                const data = await response.json();
+                
+                if (data.success) {
+                    data.subjects.forEach(subject => {
+                        const option = document.createElement('option');
+                        option.value = subject;
+                        option.textContent = subject;
+                        subjectSelect.appendChild(option);
+                    });
+                }
+            } catch (err) {
+                console.error('Error loading subjects:', err);
+            }
+        }
+
+        async function loadSecurityQuestions() {
+            try {
+                const response = await fetch('/api/get_security_questions');
+                const data = await response.json();
+                
+                if (data.success) {
+                    data.questions.forEach(question => {
+                        const option = document.createElement('option');
+                        option.value = question;
+                        option.textContent = question;
+                        securityQuestionSelect.appendChild(option);
+                    });
+                }
+            } catch (err) {
+                console.error('Error loading security questions:', err);
+            }
+        }
+
+        function toggleUSNField() {
+            const userType = userTypeSelect.value;
+            const usnGroup = document.getElementById('usnGroup');
+            const studentPasswordGroup = document.getElementById('studentPasswordGroup');
+            const teacherPasswordGroup = document.getElementById('teacherPasswordGroup');
+            const subjectGroup = document.getElementById('subjectGroup');
+            const videoContainer = document.getElementById('videoContainer');
+            const cameraControls = document.getElementById('cameraControls');
+            const teacherRegister = document.getElementById('teacherRegister');
+            
+            if (userType === 'student') {
+                usnGroup.style.display = 'block';
+                studentPasswordGroup.style.display = 'block';
+                teacherPasswordGroup.style.display = 'none';
+                subjectGroup.style.display = 'none';
+                videoContainer.style.display = 'block';
+                cameraControls.style.display = 'flex';
+                teacherRegister.style.display = 'none';
+                typeIndicator.textContent = 'Registering as: Student 👨‍🎓';
+                usnInput.required = true;
+                studentPasswordInput.required = true;
+                teacherPasswordInput.required = false;
+                subjectSelect.required = false;
+                
+                stopCamera();
+            } else {
+                usnGroup.style.display = 'none';
+                studentPasswordGroup.style.display = 'none';
+                teacherPasswordGroup.style.display = 'block';
+                subjectGroup.style.display = 'block';
+                videoContainer.style.display = 'none';
+                cameraControls.style.display = 'none';
+                teacherRegister.style.display = 'block';
+                typeIndicator.textContent = 'Registering as: Teacher 👨‍🏫';
+                usnInput.required = false;
+                studentPasswordInput.required = false;
+                teacherPasswordInput.required = true;
+                subjectSelect.required = true;
+                
+                stopCamera();
+            }
+        }
+
+        function showStatus(message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            if (type !== 'success') {
+                setTimeout(() => {
+                    statusDiv.className = 'status';
+                }, 5000);
+            }
+        }
+
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    } 
+                });
+                video.srcObject = stream;
+                
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('stopBtn').style.display = 'inline-block';
+                document.getElementById('captureBtn').style.display = 'inline-block';
+                
+                showStatus('Camera started successfully!', 'success');
+            } catch (err) {
+                showStatus('Error accessing camera: ' + err.message, 'error');
+            }
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                
+                document.getElementById('startBtn').style.display = 'inline-block';
+                document.getElementById('stopBtn').style.display = 'none';
+                document.getElementById('captureBtn').style.display = 'none';
+                
+                showStatus('Camera stopped', 'info');
+            }
+        }
+
+        async function registerFace() {
+            const name = nameInput.value.trim();
+            const userType = userTypeSelect.value;
+            const usn = usnInput.value.trim().toUpperCase();
+            const password = studentPasswordInput.value.trim();
+            const securityQuestion = securityQuestionSelect.value;
+            const securityAnswer = securityAnswerInput.value.trim();
+            
+            if (!name) {
+                showStatus('Please enter your name', 'error');
+                return;
+            }
+
+            if (userType === 'student' && !usn) {
+                showStatus('Please enter your USN', 'error');
+                return;
+            }
+
+            if (userType === 'student' && !password) {
+                showStatus('Please enter a password', 'error');
+                return;
+            }
+
+            if (userType === 'student' && password.length < 6) {
+                showStatus('Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            if (!securityQuestion) {
+                showStatus('Please select a security question', 'error');
+                return;
+            }
+
+            if (!securityAnswer) {
+                showStatus('Please enter a security answer', 'error');
+                return;
+            }
+
+            const captureBtn = document.getElementById('captureBtn');
+            const originalText = captureBtn.innerHTML;
+            captureBtn.innerHTML = '<span class="loading"></span>';
+            captureBtn.disabled = true;
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0);
+            
+            const imageData = canvas.toDataURL('image/jpeg');
+            
+            try {
+                const requestData = {
+                    name: name,
+                    user_type: userType,
+                    usn: usn,
+                    password: password,
+                    security_question: securityQuestion,
+                    security_answer: securityAnswer,
+                    image: imageData
+                };
+
+                const response = await fetch('/api/register_face', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatus(data.message + ' ✓', 'success');
+                    nameInput.value = '';
+                    usnInput.value = '';
+                    studentPasswordInput.value = '';
+                    securityQuestionSelect.value = '';
+                    securityAnswerInput.value = '';
+                    setTimeout(() => {
+                        stopCamera();
+                    }, 2000);
+                } else {
+                    showStatus(data.message, 'error');
+                }
+            } catch (err) {
+                showStatus('Error: ' + err.message, 'error');
+            } finally {
+                captureBtn.innerHTML = originalText;
+                captureBtn.disabled = false;
+            }
+        }
+
+        async function registerTeacher() {
+            const name = nameInput.value.trim();
+            const password = teacherPasswordInput.value.trim();
+            const subject = subjectSelect.value;
+            const securityQuestion = securityQuestionSelect.value;
+            const securityAnswer = securityAnswerInput.value.trim();
+            
+            if (!name) {
+                showStatus('Please enter your name', 'error');
+                return;
+            }
+
+            if (!password) {
+                showStatus('Please enter a password', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showStatus('Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            if (!subject) {
+                showStatus('Please select a subject', 'error');
+                return;
+            }
+
+            if (!securityQuestion) {
+                showStatus('Please select a security question', 'error');
+                return;
+            }
+
+            if (!securityAnswer) {
+                showStatus('Please enter a security answer', 'error');
+                return;
+            }
+
+            const registerBtn = document.getElementById('registerBtn');
+            const originalText = registerBtn.innerHTML;
+            registerBtn.innerHTML = '<span class="loading"></span>';
+            registerBtn.disabled = true;
+
+            try {
+                const requestData = {
+                    name: name,
+                    password: password,
+                    subject: subject,
+                    security_question: securityQuestion,
+                    security_answer: securityAnswer
+                };
+
+                const response = await fetch('/api/register_teacher', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatus(data.message + ' ✓', 'success');
+                    nameInput.value = '';
+                    teacherPasswordInput.value = '';
+                    subjectSelect.value = '';
+                    securityQuestionSelect.value = '';
+                    securityAnswerInput.value = '';
+                } else {
+                    showStatus(data.message, 'error');
+                }
+            } catch (err) {
+                showStatus('Error: ' + err.message, 'error');
+            } finally {
+                registerBtn.innerHTML = originalText;
+                registerBtn.disabled = false;
+            }
+        }
+
+        window.addEventListener('beforeunload', () => {
+            stopCamera();
+        });
+
+        // Initialize
+        loadSubjects();
+        loadSecurityQuestions();
+        toggleUSNField();
+    </script>
+</body>
+</html>

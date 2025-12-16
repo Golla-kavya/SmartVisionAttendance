@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Attendance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th, td {
+            padding: 18px;
+            text-align: left;
+        }
+
+        th {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .status-present {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-absent {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+            flex-wrap: wrap;
+        }
+
+        .nav-link, .btn {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .nav-link:hover, .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .date-display {
+            text-align: center;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #667eea;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f0f0f0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ðŸ“‹ Attendance Records</h1>
+        <p class="subtitle">Today's Attendance Summary</p>
+
+        <div class="date-display" id="dateDisplay">
+            Loading...
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" id="totalRegistered">0</div>
+                <div class="stat-label">Total Registered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalPresent">0</div>
+                <div class="stat-label">Present Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalAbsent">0</div>
+                <div class="stat-label">Absent Today</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="loadAttendance()">ðŸ”„ Refresh</button>
+        </div>
+
+        <div class="table-container">
+            <table id="attendanceTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceBody">
+                    <tr>
+                        <td colspan="4" class="loading">
+                            <div class="spinner"></div>
+                            <div>Loading attendance data...</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="navigation">
+            <a href="/" class="nav-link">ðŸ  Home</a>
+            <a href="/register" class="nav-link">âž• Register New Face</a>
+        </div>
+    </div>
+
+    <script>
+        let allRegisteredUsers = [];
+        let todayAttendance = {};
+
+        async function loadAttendance() {
+            try {
+                // Load registered users
+                const usersResponse = await fetch('/api/get_registered_users');
+                const usersData = await usersResponse.json();
+                
+                if (usersData.success) {
+                    allRegisteredUsers = usersData.users;
+                }
+
+                // Load today's attendance
+                const attendanceResponse = await fetch('/api/get_attendance');
+                const attendanceData = await attendanceResponse.json();
+                
+                if (attendanceData.success) {
+                    todayAttendance = attendanceData.attendance;
+                    document.getElementById('dateDisplay').textContent = 
+                        `Date: ${formatDate(attendanceData.date)}`;
+                }
+
+                updateStats();
+                displayAttendance();
+            } catch (err) {
+                console.error('Error loading attendance:', err);
+                document.getElementById('attendanceBody').innerHTML = `
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            <span>âŒ</span>
+                            <p>Error loading attendance data</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        function updateStats() {
+            const totalRegistered = allRegisteredUsers.length;
+            const totalPresent = Object.keys(todayAttendance).length;
+            const totalAbsent = totalRegistered - totalPresent;
+
+            document.getElementById('totalRegistered').textContent = totalRegistered;
+            document.getElementById('totalPresent').textContent = totalPresent;
+            document.getElementById('totalAbsent').textContent = totalAbsent;
+        }
+
+        function displayAttendance() {
+            const tbody = document.getElementById('attendanceBody');
+            
+            if (allRegisteredUsers.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="empty-state">
+                            <span>ðŸ‘¤</span>
+                            <p>No users registered yet</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = '';
+            
+            // Show present users first
+            allRegisteredUsers.forEach((name, index) => {
+                if (todayAttendance[name]) {
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td><strong>${name}</strong></td>
+                            <td>${todayAttendance[name]}</td>
+                            <td><span class="status-badge status-present">âœ“ Present</span></td>
+                        </tr>
+                    `;
+                }
+            });
+
+            // Then show absent users
+            allRegisteredUsers.forEach((name, index) => {
+                if (!todayAttendance[name]) {
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${name}</td>
+                            <td>-</td>
+                            <td><span class="status-badge status-absent">âœ— Absent</span></td>
+                        </tr>
+                    `;
+                }
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        // Load attendance on page load
+        loadAttendance();
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadAttendance, 30000);
+    </script>
+</body>
+</html>

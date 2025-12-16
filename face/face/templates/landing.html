@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance System - Face Recognition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #0a0a0a;
+        }
+
+        /* Animated Background */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 1s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 3s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 2s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 4s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 1s; }
+        .particle:nth-child(10) { left: 15%; animation-delay: 3s; }
+        .particle:nth-child(11) { left: 35%; animation-delay: 5s; }
+        .particle:nth-child(12) { left: 55%; animation-delay: 1s; }
+        .particle:nth-child(13) { left: 75%; animation-delay: 3s; }
+        .particle:nth-child(14) { left: 85%; animation-delay: 2s; }
+        .particle:nth-child(15) { left: 95%; animation-delay: 4s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding: 40px;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 50px;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+            font-weight: 300;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Card Container */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 380px;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .card-icon {
+            font-size: 4.5em;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .card h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .card-button {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Additional Links Section */
+        .additional-links {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .additional-links h2 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        .links-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .link-card {
+            background: white;
+            padding: 35px 45px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .link-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .link-card-icon {
+            font-size: 3em;
+            margin-bottom: 18px;
+            display: block;
+        }
+
+        .link-card h3 {
+            color: #667eea;
+            font-size: 1.4em;
+            margin-bottom: 12px;
+        }
+
+        .link-card p {
+            color: #666;
+            font-size: 1em;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .logo {
+                font-size: 3em;
+            }
+
+            .card {
+                padding: 40px 30px;
+                min-height: 320px;
+            }
+
+            .card-icon {
+                font-size: 3.5em;
+            }
+
+            .additional-links {
+                padding: 60px 20px;
+            }
+
+            .additional-links h2 {
+                font-size: 2em;
+            }
+        }
+
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="logo">📸</div>
+            <h1>Smart Attendance System</h1>
+            <p class="subtitle">AI-Powered Face Recognition Technology</p>
+
+            <div class="cards-container">
+                <!-- Camera Card -->
+                <div class="card" onclick="window.location.href='/camera'">
+                    <div class="card-content">
+                        <span class="card-icon">🎥</span>
+                        <h2>Face Recognition</h2>
+                        <p>Quick and secure attendance marking using facial recognition</p>
+                    </div>
+                    <a href="/camera" class="card-button" onclick="event.stopPropagation()">Mark Attendance</a>
+                </div>
+
+                <!-- Student Card -->
+                <div class="card" onclick="window.location.href='/portal?type=student'">
+                    <div class="card-content">
+                        <span class="card-icon">👨‍🎓</span>
+                        <h2>Student Portal</h2>
+                        <p>View your attendance records and track progress</p>
+                    </div>
+                    <a href="/portal?type=student" class="card-button" onclick="event.stopPropagation()">Student Login</a>
+                </div>
+
+                <!-- Teacher Card -->
+                <div class="card" onclick="window.location.href='/portal?type=teacher'">
+                    <div class="card-content">
+                        <span class="card-icon">👨‍🏫</span>
+                        <h2>Teacher Portal</h2>
+                        <p>Monitor class attendance and manage student records</p>
+                    </div>
+                    <a href="/portal?type=teacher" class="card-button" onclick="event.stopPropagation()">Teacher Login</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Links Section -->
+    <section class="additional-links">
+        <h2>Quick Access</h2>
+        <div class="links-container">
+            <a href="/register" class="link-card">
+                <span class="link-card-icon">➕</span>
+                <h3>Register New Face</h3>
+                <p>Add new students to the system</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Smart Attendance System. </p>
+        <p>Powered by AI Face Recognition Technology</p>
+    </footer>
+
+    <script>
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

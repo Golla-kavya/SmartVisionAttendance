@@ -1,0 +1,80 @@
+{
+    "john_doe": {
+        "name": "John Doe",
+        "usn": "CS001",
+        "password": "student123"
+    },
+    "jane_smith": {
+        "name": "Jane Smith",
+        "usn": "CS002",
+        "password": "student123"
+    },
+    "bob_johnson": {
+        "name": "Bob Johnson",
+        "usn": "CS003",
+        "password": "student123"
+    },
+    "sameeksha_prabhu": {
+        "name": "Sameeksha Prabhu",
+        "usn": "IS110",
+        "email": "samise21119@gmail.com",
+        "password": "Sameeksha123"
+    },
+    "prathiksha__prabhu": {
+        "name": "Prathiksha  Prabhu",
+        "usn": "IS109",
+        "password": "Prathiksha123",
+        "email": "prathikshaprabhu370@gmail.com",
+        "security_question": "What was your childhood nickname?",
+        "security_answer": "prathi"
+    },
+    "kavana_ca": {
+        "name": "Kavana CA",
+        "usn": "IS071",
+        "password": "Kavana123",
+        "security_question": "What city were you born in?",
+        "security_answer": "kolar"
+    },
+    "nisha_c": {
+        "name": "Nisha C",
+        "usn": "IS102",
+        "password": "nisha123",
+        "security_question": "What is your favorite food?",
+        "security_answer": "palav"
+    },
+    "priyanka_vr": {
+        "name": "Priyanka VR",
+        "usn": "IS116",
+        "password": "Priyanka123",
+        "security_question": "What is your favorite movie?",
+        "security_answer": "bublee"
+    },
+    "manasi": {
+        "name": "Manasi",
+        "usn": "IS406",
+        "password": "Manasi24",
+        "security_question": "What city were you born in?",
+        "security_answer": "hubli"
+    },
+    "punya_b": {
+        "name": "Punya B",
+        "usn": "IS118",
+        "password": "Punya123",
+        "security_question": "What city were you born in?",
+        "security_answer": "tumkur"
+    },
+    "madhushree_b_r": {
+        "name": "Madhushree B R",
+        "usn": "IS081",
+        "password": "Madhu123",
+        "security_question": "What is your favorite food?",
+        "security_answer": "briyani"
+    },
+    "shree": {
+        "name": "Shree",
+        "usn": "IS070",
+        "password": "Shree123",
+        "security_question": "What is your favorite movie?",
+        "security_answer": "max"
+    }
+}
